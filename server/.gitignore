@@ -12,3 +12,4 @@ dist/
 
 # Outros arquivos temporários
 *.tmp
+*.sqlite
