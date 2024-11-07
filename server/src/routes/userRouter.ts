@@ -7,5 +7,5 @@ const userRouter = Router();
 
 userRouter.get('/users', userController.getAllUsers.bind(userController))
 userRouter.post('/users', userController.createUser.bind(userController))
-
+userRouter.post('/')
 export default userRouter;

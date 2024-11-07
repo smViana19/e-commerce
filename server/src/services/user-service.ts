@@ -2,7 +2,7 @@ import { ModelStatic } from "sequelize";
 import User from "../models/user";
 import { resp } from "../utils/resp";
 import bcrypt from 'bcryptjs'
-import { password } from "../database/config/database";
+import { sign } from "../jwt/jwt";
 class UserService {
     private model: ModelStatic<User> = User;
 
@@ -19,6 +19,26 @@ class UserService {
         } catch (error) {
             throw new Error("Erro ao criar usuário");
         }
+    }
+
+    async login(body: { email: string, password: string }) {
+
+        const user = await this.model.findOne({
+            where: {
+                email: body.email
+            }
+        })
+
+        if (!user) return resp(404, "Usuario não encontrado");
+
+        const { id, name, email, role } = user
+        const token = sign({ id, name, email, role })
+        return resp(200, {
+            id,
+            email,
+            role,
+            token
+        })
     }
 
     async getAllUsers() {
