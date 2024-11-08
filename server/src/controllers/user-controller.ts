@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import UserService from "../services/user-service";
-import { json } from "sequelize";
 
 class UserController {
     private service = new UserService();
@@ -25,7 +24,7 @@ class UserController {
     }
 
     async login(req: Request, res: Response, next: NextFunction) {
-        try { 
+        try {
             const { status, message } = await this.service.login(req.body);
             res.status(status).json(message);
         } catch (error) {
