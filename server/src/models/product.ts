@@ -3,6 +3,7 @@ import db from '.'
 import sequelize from "sequelize";
 import Category from "./category";
 
+//TODO: TALVEZ ADICIONAR COLUNA DE PRODUTOS DISPONIVEL PARA DECREMENTAR O STOCK_QUANTITY
 class Product extends Model {
     declare id: number
     declare categoryId: number
@@ -10,6 +11,9 @@ class Product extends Model {
     declare description: string
     declare price: number
     declare image: string
+    declare stockQuantity: number
+
+
 }
 
 Product.init({
@@ -39,7 +43,7 @@ Product.init({
         type: sequelize.FLOAT,
         allowNull: false
     },
-    stock_quantity: {
+    stockQuantity: {
         type: sequelize.INTEGER,
         allowNull: false,
     },
@@ -54,9 +58,13 @@ Product.init({
     underscored: true
 });
 
+Category.hasMany(Product, {
+    foreignKey: 'categoryId',
+    as: 'products'
+});
 Product.belongsTo(Category, {
     foreignKey: 'categoryId',
     as: 'category'
-})
+});
 
 export default Product;
