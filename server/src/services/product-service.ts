@@ -30,8 +30,27 @@ class ProductService {
             throw new Error("Erro ao buscar o produto");
         }
     }
-    async updateProduct() { }
-    async deleteProduct() { }
+    async updateProduct(productData: IProduct, id: string) {
+        try {
+            const product = await this.model.findByPk(id);
+            if (!product) return respM(400, "Produto não encontrado");
+            await product.update({ ...productData });
+            return resp(200, product)
+        } catch (error) {
+            throw new Error("Erro ao editar o produto");
+        }
+    }
+    async deleteProduct(id: string) {
+        try {
+            const product = await this.model.findByPk(id);
+            if (!product) return respM(400, "Produto não encontrado");
+            await product.destroy();
+            return resp(204, "")
+        } catch (error) {
+            console.error(error);
+            throw new Error("Erro ao deletar produto");
+        }
+    }
 }
 
 export default ProductService

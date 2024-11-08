@@ -30,10 +30,23 @@ class ProductController {
         }
     }
     async updateProduct(req: Request, res: Response, next: NextFunction) {
-        //TODO: FAZER METODO
+        try {
+            const { id } = req.params;
+            const productData = { ...req.body };
+            const { status, message } = await this.service.updateProduct(productData, id);
+            res.status(status).json(message);
+        } catch (error) {
+            next(error);
+        }
     }
     async deleteProduct(req: Request, res: Response, next: NextFunction) {
-        //TODO: FAZER METODO
+        try {
+            const { id } = req.params;
+            const { status, message } = await this.service.deleteProduct(id);
+            res.status(status).json(message);
+        } catch (error) {
+            throw new Error("Erro ao deletar o produto")
+        }
     }
 
 

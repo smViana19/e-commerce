@@ -6,9 +6,6 @@ import Product from "../models/product";
 
 class CategoryService {
     private model: ModelStatic<Category> = Category;
-
-
-
     async createCategory(category: { name: string }) {
         try {
             const createdCategory = await this.model.create({ ...category })

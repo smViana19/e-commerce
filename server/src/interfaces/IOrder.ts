@@ -3,7 +3,10 @@ interface IOrder {
     userId: number
     paymentStatus: string
     totalAmount: number
-    products?: number[]
+    products?: {
+        productId: number;
+        quantity: number;
+    }[]
 }
 
 export default IOrder;

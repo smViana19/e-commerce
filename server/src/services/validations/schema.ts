@@ -11,8 +11,11 @@ const user = joi.object({
 const order = joi.object({
     userId: joi.number().required(),
     paymentStatus: joi.string().required(),
-    // totalAmout: joi.number().required(),
-    products: joi.array().items(joi.number().required()).required(),
+    totalAmout: joi.number(),
+    products: joi.array().items(joi.object({
+        productId: joi.number().required(),
+        quantity: joi.number().integer().min(1).required()
+    })).required(),
 
 })
 

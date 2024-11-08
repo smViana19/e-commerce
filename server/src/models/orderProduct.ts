@@ -45,20 +45,28 @@ OrderProduct.init({
 }, {
     sequelize: db,
     tableName: 'order_products',
+    underscored: true,
     timestamps: false,
 })
 
 Order.belongsToMany(Product, {
-    foreignKey: 'productId',
-    otherKey: 'orderId',
+    foreignKey: 'orderId',
+    otherKey: 'productId',
     as: 'products',
     through: OrderProduct
 })
 
-Order.belongsToMany(Order, {
-    foreignKey: 'orderId',
-    otherKey: 'productId',
+Product.belongsToMany(Order, {
+    foreignKey: 'productId',
+    otherKey: 'orderId',
     as: 'orders',
+    through: OrderProduct
+});
+
+Product.belongsToMany(Product, {
+    foreignKey: 'productId',
+    otherKey: 'orderId',
+    as: 'products',
     through: OrderProduct
 })
 

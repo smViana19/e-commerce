@@ -13,31 +13,42 @@ class OrderService {
 
     async createOrder(order: IOrder) {
         try {
-            const { error } = schema.order.validate(order)
+            const { error } = schema.order.validate(order);
             if (error) return respM(422, error.message);
-            const createdOrder = await this.model.create({ ...order });
 
-            if (!order.totalAmount) {
-                const products = await Product.findAll({
-                    where: { id: order.products }
-                });
-                order.totalAmount = products.reduce((total, product) => {
-                    const productPrice = product.price || 0;
-                    return total + productPrice;
-                }, 0)
+            if (!order.products?.length) {
+                throw new Error("A lista de produtos está ausente ou no formato incorreto.");
             }
 
-            const orderProduct = order.products!.map((e) => ({
-                orderId: createdOrder.id,
-                productId: e
-            }))
+            const productIds = order.products.map(p => p.productId);
 
-            await OrderProduct.bulkCreate(orderProduct)
+            const products = await Product.findAll({
+                where: { id: productIds }
+            });
 
-            for (const productId of order.products!) {
-                const product = await Product.findByPk(productId);
+            order.totalAmount = order.products.reduce((total, p) => {
+                const product = products.find(prod => prod.id === p.productId);
+                return total + (product?.price || 0) * p.quantity;
+            }, 0);
+
+            const createdOrder = await this.model.create({ ...order });
+
+            const orderProductData = order.products.map((p) => {
+                const product = products.find((product) => product.id === p.productId);
+                return {
+                    orderId: createdOrder.id,
+                    productId: p.productId,
+                    price: product?.price || 0,
+                    quantity: p.quantity
+                };
+            });
+
+            await OrderProduct.bulkCreate(orderProductData);
+
+            for (const p of order.products) {
+                const product = await Product.findByPk(p.productId);
                 if (product) {
-                    product.stockQuantity -= 1;
+                    product.stockQuantity -= p.quantity;
                     await product.save();
                 }
             }
@@ -46,8 +57,8 @@ class OrderService {
         } catch (error) {
             throw new Error("Erro ao criar pedido");
         }
-
     }
+
     async getAllOrders() {
         try {
             const orders = await this.model.findAll();
@@ -65,7 +76,18 @@ class OrderService {
             throw new Error("Erro ao buscar o pedido");
         }
     }
-    async updateOrder() { }
+    async updateOrder(orderData: IOrder, id: string) {
+        try {
+            const order = await this.model.findByPk(id);
+            if (!order) return respM(400, "Pedido não encontrado");
+
+            await order.update({ ...orderData });
+            return resp(200, order)
+        } catch (error) {
+            throw new Error("Erro ao editar o pedido")
+        }
+    }
+
 }
 
 export default OrderService;

@@ -6,7 +6,6 @@ interface IProduct {
     price: number
     image: string
     stockQuantity: number
-    //categories: Category[]
 }
 
 export default IProduct;
