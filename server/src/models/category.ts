@@ -23,7 +23,12 @@ Category.init({
     sequelize: db,
     modelName: 'categories',
     timestamps: false
-})
+});
+
+// Category.hasMany(Product, {
+//     foreignKey: 'categoryId',
+//     as: 'products',  // Alias para quando se referir à relação de categorias com produtos
+// });
 
 
 
