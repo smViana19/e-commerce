@@ -54,8 +54,8 @@ Antes de rodar o projeto, certifique-se de ter as seguintes ferramentas instalad
 Clone o repositório e navegue até o diretório do projeto:
 
 ```bash
-git clone https://github.com/seu-usuario/seu-repositorio.git
-cd seu-repositorio
+git clone https://github.com/smViana19/e-commerce.git
+cd e-commerce
 ```
 ### 2. Configurar o Back-End
 Agora, configure a parte do servidor:
