@@ -5,17 +5,21 @@ import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Products from "../pages/Products";
 import Register from "../pages/Register";
+import { CartProvider } from "../context/CartContext";
 
 const AppRoutes = () => {
   return (
     <>
-      <Routes>
+    <CartProvider>
+    <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/registro" element={<Register />} />
         <Route path="/produtos" element={<Products />} />
         <Route path="/checkout" element={<Checkout />} />
       </Routes>
+    </CartProvider>
+      
     </>
   );
 };
