@@ -27,7 +27,7 @@ const Register = () => {
       setIsLoading(false);
       navigate("/login");
     } catch (error) {
-      console.log("Erro");
+      toast.error("Erro ao criar conta. Tente novamente");
     } finally {
       setIsLoading(false);
     }

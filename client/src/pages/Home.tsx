@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Card from "../components/Card";
 import axiosInstance from "../../services/axios";
+import { ToastContainer } from "react-toastify";
 
 interface Product {
   id: string;
@@ -18,7 +19,6 @@ const Home = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       const response = await axiosInstance.get("/product");
-      console.log(response.data);
       setProducts(response.data);
     };
 
@@ -40,6 +40,7 @@ const Home = () => {
           />
         ))}
       </div>
+      <ToastContainer />
     </div>
   );
 };

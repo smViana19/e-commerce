@@ -1,5 +1,4 @@
 import joi from 'joi'
-import { password } from '../../database/config/database'
 
 const user = joi.object({
     email: joi.string().email().required(),
@@ -10,7 +9,7 @@ const user = joi.object({
 
 const order = joi.object({
     userId: joi.number().required(),
-    paymentStatus: joi.string().required(),
+    paymentStatus: joi.string(),
     totalAmout: joi.number(),
     products: joi.array().items(joi.object({
         productId: joi.number().required(),
@@ -19,4 +18,8 @@ const order = joi.object({
 
 })
 
-export = { user, order }
+const payment = joi.object({
+    sessionId: joi.string().required()
+});
+
+export = { user, order, payment }

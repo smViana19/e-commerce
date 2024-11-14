@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import OrderService from "../services/order-service";
-
+import PaymentService from "../services/payment-service";
 class OrderController {
     private service = new OrderService;
-
+    private paymentService = new PaymentService;
     async createOrder(req: Request, res: Response, next: NextFunction) {
         try {
             const { status, message } = await this.service.createOrder(req.body);
@@ -41,6 +41,16 @@ class OrderController {
             next(error)
         }
     }
+    async confirmOrderPayment(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { sessionId } = req.body;
+            const { status, message } = await this.paymentService.confirmOrderPayment(sessionId);
+            res.status(status).json(message);
+        } catch (error) {
+            next(error);
+        }
+    }
+
 
 }
 

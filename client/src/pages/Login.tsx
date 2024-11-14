@@ -26,7 +26,6 @@ const Login = () => {
       );
 
       const token = response.data.token;
-      console.log(token);
       setIsLoading(false);
       navigate("/produtos");
     } catch (error) {

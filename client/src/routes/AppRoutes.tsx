@@ -6,20 +6,21 @@ import Login from "../pages/Login";
 import Products from "../pages/Products";
 import Register from "../pages/Register";
 import { CartProvider } from "../context/CartContext";
+import SuccesPayment from "../pages/SuccessPayment";
 
 const AppRoutes = () => {
   return (
     <>
-    <CartProvider>
-    <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/registro" element={<Register />} />
-        <Route path="/produtos" element={<Products />} />
-        <Route path="/checkout" element={<Checkout />} />
-      </Routes>
-    </CartProvider>
-      
+      <CartProvider>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/registro" element={<Register />} />
+          <Route path="/produtos" element={<Products />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/payment-success" element={<SuccesPayment />} />
+        </Routes>
+      </CartProvider>
     </>
   );
 };

@@ -5,18 +5,17 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 import { MdAccountCircle } from "react-icons/md";
 import { IoCloseOutline } from "react-icons/io5";
 import SidebarCart from "./SidebarCart";
+import { useCart } from "../context/CartContext";
 
 const Navbar = () => {
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
   const [isMenuOpen, setMenuOpen] = useState(false);
+  const { cartItems } = useCart();
+  const totalItems = [...cartItems].reduce(
+    (acc, item) => acc + item.quantity,
+    0
+  );
 
-  const cartItems = [
-    { label: "Produto 1", link: "#" },
-    { label: "Produto 2", link: "#" },
-    { label: "Produto 3", link: "#" },
-  ];
-
-  console.log(isSideMenuOpen);
   const navLinks = [
     { label: "Produtos", link: "/produtos" },
     { label: "Pedidos", link: "/pedidos" },
@@ -56,12 +55,18 @@ const Navbar = () => {
           </section>
         </div>
 
-        <section className="flex items-center gap-4">
+        <section className="flex items-center gap-4  ">
           {/* <Link to="/checkout"> */}
-          <AiOutlineShoppingCart
-            className="text-3xl cursor-pointer"
-            onClick={() => setMenuOpen(true)}
-          />
+          <div className="relative">
+            <AiOutlineShoppingCart
+              className="text-3xl cursor-pointer"
+              onClick={() => setMenuOpen(true)}
+            />
+            <span className="absolute rounded-full -top-3 -right-2 bg-black text-white text-xs px-2 py-1 ">
+              {totalItems}
+            </span>
+          </div>
+
           {/* </Link> */}
           <Link to="/login">
             <MdAccountCircle className="text-3xl" />
@@ -69,11 +74,7 @@ const Navbar = () => {
         </section>
       </nav>
       <hr />
-      <SidebarCart
-        menuOpen={isMenuOpen}
-        setMenuOpen={setMenuOpen}
-        cartItems={cartItems}
-      />
+      <SidebarCart menuOpen={isMenuOpen} setMenuOpen={setMenuOpen} />
     </main>
   );
 };

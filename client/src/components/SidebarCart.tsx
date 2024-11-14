@@ -1,11 +1,10 @@
 import { IoCloseOutline } from "react-icons/io5";
-import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { Button } from "./Button";
 import { useState } from "react";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import axiosInstance from "../../services/axios";
-
+import { loadStripe } from "@stripe/stripe-js";
 interface SidebarProps {
   menuOpen: boolean;
   setMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -14,17 +13,48 @@ interface SidebarProps {
 const SidebarCart: React.FC<SidebarProps> = ({ menuOpen, setMenuOpen }) => {
   const [isLoading, setIsLoading] = useState(false);
   const { cartItems, removeItemFromCart, getTotalPrice } = useCart();
+  const stripePromise = loadStripe(
+    "pk_test_51QL2V2E048WBTF5AUTSM8uzXxiNf9wnlHMShByq5Ez5ICgRtTVJyMWs6wTwaxoHioUDrCUxyC60xtqZ0tpVE0RKv00oXfUh5td"
+    // process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY as string
+  );
 
   const createOrderAndRedirectToPayment = async () => {
     try {
-      const response = await toast.promise(axiosInstance.post("/order", {}), {
-        pending: "Finalizando pedido...",
-        success: "Pedido finalizado com sucesso!",
-        error: "Erro ao finalizar o pedido, tente novamente.",
+      setIsLoading(true);
+      const lineItems = cartItems.map((item) => ({
+        price_data: {
+          currency: "brl",
+          product_data: {
+            name: item.title,
+          },
+          unit_amount: Math.round(item.price * 100),
+        },
+        quantity: item.quantity,
+      }));
+      if (lineItems.length === 0) {
+        toast.warn("Adicione pelo menos 1 produto.");
+        return;
+      }
+
+      const orderResponse = await axiosInstance.post("/order", {
+        userId: 9, //TODO: AJUSTAR PARA PEGAR PELA SESSAO
+        products: cartItems.map((item) => ({
+          productId: item.id,
+          quantity: item.quantity,
+        })),
       });
+      const orderId = orderResponse.data.id;
+      console.log(orderId);
+      const { data } = await axiosInstance.post("/checkout-session", {
+        lineItems,
+        orderId,
+      });
+      const stripe = await stripePromise;
+      await stripe?.redirectToCheckout({ sessionId: data.id });
     } catch (error) {
-      console.error(error);
-      //TODO: MENSAGEM DO ERRO NA TELA
+      toast.error("Erro ao redirecionar para o pagamento. Tente novamente.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -51,7 +81,7 @@ const SidebarCart: React.FC<SidebarProps> = ({ menuOpen, setMenuOpen }) => {
                 <div className="flex-1 ml-4">
                   <p className="font-bold">{item.title}</p>
                   <p>
-                    {item.quantity}x R${item.price.toFixed(2)}
+                    {item.quantity}x R${item.price}
                   </p>
                 </div>
                 <button
@@ -77,6 +107,7 @@ const SidebarCart: React.FC<SidebarProps> = ({ menuOpen, setMenuOpen }) => {
           text="Finalizar pedido"
         />
       </section>
+      <ToastContainer />
     </div>
   );
 };
