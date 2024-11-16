@@ -20,10 +20,11 @@ Este é um sistema de e-commerce com autenticação de usuários, gerenciamento 
 
 ## 🚀 Funcionalidades
 
-- Autenticação e registro de usuários.
+- Autenticação e Autorização de usuários.
 - Listagem de produtos e visualização de detalhes.
 - Adição de produtos ao carrinho.
 - Finalização de pedido com cálculo de valores.
+- Integração com API de pagamentos
 
 ## 🛠 Tecnologias Utilizadas
 
@@ -36,7 +37,8 @@ Este é um sistema de e-commerce com autenticação de usuários, gerenciamento 
   - [Express](https://expressjs.com/)
   - [Sequelize](https://sequelize.org/) (ORM para manipulação de banco de dados)
   - [Typescript](https://www.typescriptlang.org/)
-  - JWT para autenticação de usuário
+  - [Jest](https://jestjs.io/pt-BR/docs/getting-started)
+  - Tokens JWT
 - **Banco de Dados**:
   - [SQLite3](https://www.sqlite.org/)
 
@@ -45,7 +47,7 @@ Este é um sistema de e-commerce com autenticação de usuários, gerenciamento 
 Antes de rodar o projeto, certifique-se de ter as seguintes ferramentas instaladas:
 - [Node.js](https://nodejs.org/) (versão 14+)
 - [Git](https://git-scm.com/)
-- **Banco de Dados**: SQLite3 ou outro banco de dados compatível com Sequelize.
+- **Banco de Dados**: SQLite3 ou outro banco de dados relacional compatível com Sequelize.
 
 ## ▶️ Como Rodar o Projeto
 
