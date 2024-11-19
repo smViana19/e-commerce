@@ -3,6 +3,7 @@ import ProductService from "../services/product-service";
 
 class ProductController {
     private service = new ProductService();
+    
     async createProduct(req: Request, res: Response, next: NextFunction) {
         try {
             const { categoryId, name, description, price, image, stockQuantity } = req.body;
@@ -12,6 +13,7 @@ class ProductController {
             next(error);
         }
     }
+
     async getAllProducts(req: Request, res: Response, next: NextFunction) {
         try {
             const { status, message } = await this.service.getAllProducts();
@@ -20,6 +22,7 @@ class ProductController {
             next(error);
         }
     }
+
     async getProductById(req: Request, res: Response, next: NextFunction) {
         try {
             const { id } = req.params;
@@ -29,6 +32,7 @@ class ProductController {
             next(error);
         }
     }
+
     async updateProduct(req: Request, res: Response, next: NextFunction) {
         try {
             const { id } = req.params;
@@ -39,6 +43,7 @@ class ProductController {
             next(error);
         }
     }
+
     async deleteProduct(req: Request, res: Response, next: NextFunction) {
         try {
             const { id } = req.params;

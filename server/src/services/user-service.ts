@@ -44,6 +44,7 @@ class UserService {
         const token = sign({ id, name, email, role })
         return resp(200, {
             id,
+            name,
             email,
             role,
             token

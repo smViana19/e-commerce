@@ -3,6 +3,7 @@ import PaymentService from "../services/payment-service";
 
 class PaymentController {
   private service = new PaymentService;
+  
   async createCheckoutSession(req: Request, res: Response, next: NextFunction) {
     try {
       const { lineItems, orderId } = req.body;

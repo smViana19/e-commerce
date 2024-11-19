@@ -1,15 +1,13 @@
-import { ModelStatic, or } from "sequelize";
-import Order from "../models/order";
+import { ModelStatic } from "sequelize";
 import IOrder from "../interfaces/IOrder";
-import { resp, respM } from "../utils/resp";
-import schema from "./validations/schema";
-import e from "express";
+import Order from "../models/order";
 import OrderProduct from "../models/orderProduct";
 import Product from "../models/product";
+import { resp, respM } from "../utils/resp";
+import schema from "./validations/schema";
 
 class OrderService {
     private model: ModelStatic<Order> = Order;
-
 
     async createOrder(order: IOrder) {
         try {
@@ -67,6 +65,7 @@ class OrderService {
             throw new Error("Erro ao listar os pedidos");
         }
     }
+
     async getOrderById(id: string) {
         try {
             const order = await this.model.findByPk(id);
@@ -76,6 +75,28 @@ class OrderService {
             throw new Error("Erro ao buscar o pedido");
         }
     }
+
+    async getOrderByUser(userId: string) {
+        try {
+            const orders = await this.model.findAll({
+                where: { userId },
+                include: [
+                    {
+                        model: Product,
+                        as: "products",
+                        through: { attributes: ['price', 'quantity'] },
+                    },
+                ],
+            })
+
+            return resp(200, orders);
+
+        } catch (error) {
+            console.log("Erro ao buscar pedido do usuário: ", error);
+            throw new Error("Erro ao buscar pedido do usuário")
+        }
+    }
+
     async updateOrder(orderData: IOrder, id: string) {
         try {
             const order = await this.model.findByPk(id);
@@ -87,6 +108,7 @@ class OrderService {
             throw new Error("Erro ao editar o pedido")
         }
     }
+
 
 
 }

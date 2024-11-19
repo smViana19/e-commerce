@@ -4,6 +4,7 @@ import PaymentService from "../services/payment-service";
 class OrderController {
     private service = new OrderService;
     private paymentService = new PaymentService;
+
     async createOrder(req: Request, res: Response, next: NextFunction) {
         try {
             const { status, message } = await this.service.createOrder(req.body);
@@ -22,6 +23,7 @@ class OrderController {
             next(error);
         }
     }
+
     async getOrderById(req: Request, res: Response, next: NextFunction) {
         try {
             const { id } = req.params;
@@ -31,6 +33,17 @@ class OrderController {
             next(error);
         }
     }
+
+    async getOrderByUser(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { userId } = req.params;
+            const { status, message } = await this.service.getOrderByUser(userId);
+            res.status(status).json(message);
+        } catch (error) {
+            next(error);
+        }
+    }
+
     async updateOrder(req: Request, res: Response, next: NextFunction) {
         try {
             const { id } = req.params;
@@ -41,6 +54,7 @@ class OrderController {
             next(error)
         }
     }
+
     async confirmOrderPayment(req: Request, res: Response, next: NextFunction) {
         try {
             const { sessionId } = req.body;
@@ -50,6 +64,7 @@ class OrderController {
             next(error);
         }
     }
+
 
 
 }

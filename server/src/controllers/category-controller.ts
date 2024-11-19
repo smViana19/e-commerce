@@ -14,6 +14,7 @@ class CategoryController {
             next(error);
         }
     }
+
     async getAllCategories(req: Request, res: Response, next: NextFunction) {
         try {
             const { status, message } = await this.service.getAllCategories();
@@ -22,6 +23,7 @@ class CategoryController {
             next(error);
         }
     }
+
     async getCategoryById(req: Request, res: Response, next: NextFunction) {
         try {
             const { id } = req.params;
@@ -32,6 +34,7 @@ class CategoryController {
             next(error);
         }
     }
+    
 
 }
 

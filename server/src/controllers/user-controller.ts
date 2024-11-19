@@ -12,7 +12,7 @@ class UserController {
             next(error)
         }
     }
-
+    
     async createUser(req: Request, res: Response, next: NextFunction) {
         try {
             const { name, email, password, role } = req.body;

@@ -6,6 +6,7 @@ import Product from "../models/product";
 
 class CategoryService {
     private model: ModelStatic<Category> = Category;
+
     async createCategory(category: { name: string }) {
         try {
             const createdCategory = await this.model.create({ ...category })
@@ -15,6 +16,7 @@ class CategoryService {
         }
 
     }
+
     async getAllCategories() {
         try {
             const categories = await this.model.findAll({
@@ -28,6 +30,7 @@ class CategoryService {
             throw new Error("Erro ao listar as categorias")
         }
     }
+
     async getCategoryById(id: string) {
         try {
             const category = await this.model.findByPk(id, {
