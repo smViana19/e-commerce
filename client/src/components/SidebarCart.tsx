@@ -13,6 +13,8 @@ interface SidebarProps {
 const SidebarCart: React.FC<SidebarProps> = ({ menuOpen, setMenuOpen }) => {
   const [isLoading, setIsLoading] = useState(false);
   const { cartItems, removeItemFromCart, getTotalPrice } = useCart();
+  const storedUser = localStorage.getItem("user");
+  const userId = storedUser ? JSON.parse(storedUser) : null;
   const stripePromise = loadStripe(
     "pk_test_51QL2V2E048WBTF5AUTSM8uzXxiNf9wnlHMShByq5Ez5ICgRtTVJyMWs6wTwaxoHioUDrCUxyC60xtqZ0tpVE0RKv00oXfUh5td"
     // process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY as string
@@ -37,7 +39,7 @@ const SidebarCart: React.FC<SidebarProps> = ({ menuOpen, setMenuOpen }) => {
       }
 
       const orderResponse = await axiosInstance.post("/order", {
-        userId: 9, //TODO: AJUSTAR PARA PEGAR PELA SESSAO
+        userId: userId.id, //TODO: AJUSTAR PARA PEGAR PELA SESSAO
         products: cartItems.map((item) => ({
           productId: item.id,
           quantity: item.quantity,

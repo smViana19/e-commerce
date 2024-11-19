@@ -1,16 +1,28 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { ComponentProps, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { FiMenu } from "react-icons/fi";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { MdAccountCircle } from "react-icons/md";
 import { IoCloseOutline } from "react-icons/io5";
 import SidebarCart from "./SidebarCart";
 import { useCart } from "../context/CartContext";
+import { Button } from "./Button";
+import Dropdown from "./Dropdown";
 
-const Navbar = () => {
+interface NavbarProps {
+  isLoggedIn: boolean;
+  handleLogout: () => void;
+}
+
+const Navbar = ({ isLoggedIn, handleLogout }: NavbarProps) => {
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
   const [isMenuOpen, setMenuOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const { cartItems } = useCart();
+  const navigate = useNavigate();
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
   const totalItems = [...cartItems].reduce(
     (acc, item) => acc + item.quantity,
     0
@@ -38,7 +50,7 @@ const Navbar = () => {
         {/* sidebar menu */}
 
         <div
-          className={`fixed h-full w-screen  bg-black/50 backdrop-blur-sm top-0 right-0 transition-all duration-700 ease-in-out  ${
+          className={`fixed h-full w-full  bg-black/50 backdrop-blur-sm top-0 right-0 transition-all duration-700 ease-in-out  ${
             isSideMenuOpen ? "block" : "hidden"
           }`}
         >
@@ -54,24 +66,31 @@ const Navbar = () => {
             ))}
           </section>
         </div>
+        {isLoggedIn ? (
+          <section className="flex items-center gap-4 ">
+            <div className="relative">
+              <AiOutlineShoppingCart
+                className="text-3xl cursor-pointer"
+                onClick={() => setMenuOpen(true)}
+              />
+              <span className="absolute rounded-full -top-3 -right-2 bg-black text-white text-xs px-2 py-1 ">
+                {totalItems}
+              </span>
+            </div>
 
-        <section className="flex items-center gap-4  ">
-          {/* <Link to="/checkout"> */}
-          <div className="relative">
-            <AiOutlineShoppingCart
-              className="text-3xl cursor-pointer"
-              onClick={() => setMenuOpen(true)}
-            />
-            <span className="absolute rounded-full -top-3 -right-2 bg-black text-white text-xs px-2 py-1 ">
-              {totalItems}
-            </span>
-          </div>
-
-          {/* </Link> */}
-          <Link to="/login">
-            <MdAccountCircle className="text-3xl" />
-          </Link>
-        </section>
+            {/* </Link> */}
+            <div className="relative">
+              <button onClick={toggleDropdown} className="focus:outline-none">
+                <MdAccountCircle className="text-3xl" />
+              </button>
+              {dropdownOpen && <Dropdown handleLogout={handleLogout} />}
+            </div>
+          </section>
+        ) : (
+          <section>
+            <Button text="Login" onClick={() => navigate("/login")} />
+          </section>
+        )}
       </nav>
       <hr />
       <SidebarCart menuOpen={isMenuOpen} setMenuOpen={setMenuOpen} />

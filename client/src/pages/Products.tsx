@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import axiosInstance from "../../services/axios";
 import Card from "../components/Card";
+import { ToastContainer } from "react-toastify";
 
 interface Product {
   id: string;
@@ -25,7 +26,6 @@ const Products = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar />
       <div className="grid gap-6 mt-10 max-w-6xl mx-auto px-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 ">
         {products.map((product) => (
           <Card
@@ -38,6 +38,7 @@ const Products = () => {
           />
         ))}
       </div>
+      <ToastContainer />
     </div>
   );
 };

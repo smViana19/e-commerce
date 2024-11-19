@@ -19,7 +19,7 @@ const SuccesPayment = () => {
     };
     confirmOrder();
   }, [sessionId]);
-  return <div>Pagamento realizado com sucesso !</div>;
+  return <div className="min-h-screen">Pagamento realizado com sucesso !</div>;
 };
 
 export default SuccesPayment;

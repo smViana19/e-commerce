@@ -12,7 +12,7 @@ const Register = () => {
   const handleRegister = async () => {
     try {
       setIsLoading(true);
-      const response = await toast.promise(
+      await toast.promise(
         axiosInstance.post("/users", {
           name,
           email,

@@ -1,7 +1,7 @@
 interface ButtonProps {
   text: string;
   onClick: () => void;
-  isLoading: boolean;
+  isLoading?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = ({ text, onClick, isLoading }) => {

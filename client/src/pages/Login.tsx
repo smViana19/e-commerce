@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Button } from "../components/Button";
-import axiosInstance from "../../services/axios";
 import { toast, ToastContainer } from "react-toastify";
+import axiosInstance from "../../services/axios";
+import { Button } from "../components/Button";
+import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const { login } = useAuth();
   const navigate = useNavigate();
   const handleLogin = async () => {
     try {
@@ -24,10 +25,17 @@ const Login = () => {
           error: "Erro ao logar, tente novamente.",
         }
       );
-
       const token = response.data.token;
-      setIsLoading(false);
+      const userData = {
+        id: response.data.id,
+        name: response.data.name,
+        email: response.data.email,
+        role: response.data.role,
+      };
+
+      login(token, userData);
       navigate("/produtos");
+      setIsLoading(false);
     } catch (error) {
     } finally {
       setIsLoading(false);
