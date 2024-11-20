@@ -15,7 +15,7 @@ Este é um projeto de e-commerce completo com front-end em React, Vite e TypeScr
 ## 📖 Sobre o Projeto
 
 Este é um sistema de e-commerce com autenticação de usuários, gerenciamento de produtos e carrinho de compras. A aplicação é dividida em duas partes principais:
-- **Client**: Interface de usuário construída em React com Vite e TypeScript.
+- **Client**: Interface de usuário construída em React com Vite e TypeScript. Utilizando componentização modular
 - **Server**: API RESTful em Node.js com Express, TypeScript e Sequelize para gerenciar operações com banco de dados.
 
 ## 🚀 Funcionalidades
@@ -38,14 +38,14 @@ Este é um sistema de e-commerce com autenticação de usuários, gerenciamento 
   - [Sequelize](https://sequelize.org/) (ORM para manipulação de banco de dados)
   - [Typescript](https://www.typescriptlang.org/)
   - [Jest](https://jestjs.io/pt-BR/docs/getting-started)
-  - Tokens JWT
+  - [JWT](https://jwt.io/)
 - **Banco de Dados**:
   - [SQLite3](https://www.sqlite.org/)
 
 ## 📝 Pré-requisitos
 
 Antes de rodar o projeto, certifique-se de ter as seguintes ferramentas instaladas:
-- [Node.js](https://nodejs.org/) (versão 14+)
+- [Node.js](https://nodejs.org/)
 - [Git](https://git-scm.com/)
 - **Banco de Dados**: SQLite3 ou outro banco de dados relacional compatível com Sequelize.
 
