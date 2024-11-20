@@ -1,4 +1,6 @@
 import { useCart } from "../context/CartContext";
+import { Button } from "./Button";
+import { IoMdAdd } from "react-icons/io";
 
 interface CardProps {
   id: string;
@@ -6,11 +8,24 @@ interface CardProps {
   title: string;
   description: string;
   price: number;
-  quantity: number;
+  quantity?: number;
+  isAdmin?: boolean;
+  onEdit?: () => void;
+  onDelete?: () => void;
 }
 
-const Card = ({ id, image, title, description, price }: CardProps) => {
+const Card = ({
+  id,
+  image,
+  title,
+  description,
+  price,
+  isAdmin = false,
+  onEdit,
+  onDelete,
+}: CardProps) => {
   const { addItemToCart } = useCart();
+
   const handleAddToCart = () => {
     const item = {
       id,
@@ -22,6 +37,8 @@ const Card = ({ id, image, title, description, price }: CardProps) => {
     addItemToCart(item);
   };
 
+  
+
   return (
     <div className="max-w-sm rounded-lg overflow-hidden shadow-lg bg-white ">
       <img className="w-full h-64 object-cover" src={image} alt={title} />
@@ -29,15 +46,41 @@ const Card = ({ id, image, title, description, price }: CardProps) => {
         <h2 className="text-xl font-semibold text-gray-800 truncate">
           {title}
         </h2>
-        <p className="text-gray-600 mt-2">{description}</p>
+        <p className="text-gray-600 mt-2 truncate">{description}</p>
         <div className="mt-4 flex items-center justify-between">
-          <span className="text-lg font-semibold ">{price}</span>
-          <button
-            onClick={handleAddToCart}
-            className="px-4 py-2 bg-black text-white rounded-full hover:bg-black/90"
-          >
-            Adicionar ao Carrinho
-          </button>
+          <span className="text-lg font-semibold ">{`R$ ${price.toFixed(
+            2
+          )}`}</span>
+
+          {isAdmin ? (
+            <div className="flex gap-2">
+              {onEdit && (
+                <Button
+                  text="Editar"
+                  onClick={onEdit}
+                  variant="outline" // botão transparente
+                  size="small" // tamanho pequeno
+                />
+              )}
+              {onDelete && (
+                <Button
+                  text="Excluir"
+                  onClick={onDelete}
+                  variant="outline" // botão transparente
+                  size="small" // tamanho pequeno
+                />
+              )}
+            </div>
+          ) : (
+            <Button
+              text="Adicionar ao Carrinho"
+              onClick={handleAddToCart}
+              variant="filled"
+              size="small"
+              width="auto"
+              icon={<IoMdAdd />}
+            />
+          )}
         </div>
       </div>
     </div>

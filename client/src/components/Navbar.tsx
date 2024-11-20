@@ -88,7 +88,12 @@ const Navbar = ({ isLoggedIn, handleLogout }: NavbarProps) => {
           </section>
         ) : (
           <section>
-            <Button text="Login" onClick={() => navigate("/login")} />
+            <Button
+              text="Faça login"
+              onClick={() => navigate("/login")}
+              size="small"
+              variant="outline"
+            />
           </section>
         )}
       </nav>

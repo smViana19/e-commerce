@@ -1,13 +1,12 @@
-import React from 'react';
+import React from "react";
 
 const Spinner = () => {
-
   return (
     <div className="flex justify-center items-center h-screen">
       <div role="status" className="flex flex-col items-center">
         <svg
           aria-hidden="true"
-          className="w-16 h-16 text-gray-200 animate-spin fill-red-600"
+          className="w-16 h-16 text-gray-200 animate-spin fill-black"
           viewBox="0 0 100 101"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -25,9 +24,8 @@ const Spinner = () => {
           <span className="mt-4 text-gray-700 text-xl">Carregando...</span>
         </div>
       </div>
-
     </div>
-  )
-}
+  );
+};
 
 export default Spinner;

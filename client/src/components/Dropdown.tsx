@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { MdLock } from "react-icons/md";
+import ProtectedLink from "./ProtectedLink";
 
 interface DropdownProps {
   handleLogout: () => void;
@@ -13,7 +14,13 @@ const Dropdown = ({ handleLogout }: DropdownProps) => {
       >
         Meus pedidos
       </Link>
-      <Link
+      <ProtectedLink to="/gerenciar" requiredRole="admin">
+        Área restrita
+        <span className="flex-shrink-0 text-lg">
+          <MdLock />
+        </span>
+      </ProtectedLink>
+      {/* <Link
         to="/gerenciar"
         className="px-4 py-2 hover:bg-gray-100 flex items-center gap-2"
       >
@@ -21,7 +28,7 @@ const Dropdown = ({ handleLogout }: DropdownProps) => {
         <span className="flex-shrink-0 text-lg">
           <MdLock />
         </span>
-      </Link>
+      </Link> */}
       <button
         onClick={handleLogout}
         className="block w-full text-left px-4 py-2 hover:bg-gray-100"
