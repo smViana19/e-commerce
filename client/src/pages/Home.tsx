@@ -30,6 +30,7 @@ const Home = () => {
       <div className="grid gap-6 mt-10 max-w-6xl mx-auto px-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 ">
         {products.map((product) => (
           <Card
+            key={product.id}
             id={product.id}
             image={product.image}
             description={product.description}

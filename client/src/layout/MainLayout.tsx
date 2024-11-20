@@ -3,6 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import { useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Spinner from "../components/Spinner";
+import { ToastContainer } from "react-toastify";
 
 const MainLayout = () => {
   const { logout, isLoggedIn, loading } = useAuth();
@@ -25,6 +26,7 @@ const MainLayout = () => {
       <Navbar handleLogout={handleLogout} isLoggedIn={isLoggedIn} />
       <main>
         <Outlet />
+        <ToastContainer />
       </main>
     </div>
   );

@@ -9,6 +9,8 @@ import Products from "../pages/Products";
 import Register from "../pages/Register";
 import SuccesPayment from "../pages/SuccessPayment";
 import ProtectedRoute from "./ProtectedRoute";
+import AdminRoute from "./AdminRoute";
+import Dashboard from "../pages/Admin/Dashboard";
 
 const AppRoutes = () => {
   return (
@@ -24,6 +26,10 @@ const AppRoutes = () => {
             <Route
               path="/pedidos"
               element={<ProtectedRoute element={<Orders />} />}
+            />
+            <Route
+              path="/gerenciar"
+              element={<AdminRoute element={<Dashboard />} />}
             />
           </Route>
         </Routes>
