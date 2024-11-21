@@ -4,7 +4,21 @@ import router from "./routes";
 import errorHandler from "./middlewares/errorHandler";
 
 const app = express();
-app.use(cors());
+
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://bazzarbrand.vercel.app/"
+];
+const corsOptions = {
+  origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(router)
 app.use(errorHandler)
