@@ -1,6 +1,6 @@
+import { IoMdAdd } from "react-icons/io";
 import { useCart } from "../context/CartContext";
 import { Button } from "./Button";
-import { IoMdAdd } from "react-icons/io";
 
 interface CardProps {
   id: string;
@@ -37,8 +37,6 @@ const Card = ({
     addItemToCart(item);
   };
 
-  
-
   return (
     <div className="max-w-sm rounded-lg overflow-hidden shadow-lg bg-white ">
       <img className="w-full h-64 object-cover" src={image} alt={title} />
@@ -48,7 +46,7 @@ const Card = ({
         </h2>
         <p className="text-gray-600 mt-2 truncate">{description}</p>
         <div className="mt-4 flex items-center justify-between">
-          <span className="text-lg font-semibold ">{`R$ ${price.toFixed(
+          <span className="text-lg font-semibold mr-5">{`R$ ${price.toFixed(
             2
           )}`}</span>
 
@@ -58,8 +56,8 @@ const Card = ({
                 <Button
                   text="Editar"
                   onClick={onEdit}
-                  variant="outline" // botão transparente
-                  size="small" // tamanho pequeno
+                  variant="outline"
+                  size="small"
                 />
               )}
               {onDelete && (

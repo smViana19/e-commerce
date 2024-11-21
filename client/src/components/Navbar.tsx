@@ -1,13 +1,13 @@
-import React, { ComponentProps, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { FiMenu } from "react-icons/fi";
+import { useState } from "react";
 import { AiOutlineShoppingCart } from "react-icons/ai";
-import { MdAccountCircle } from "react-icons/md";
+import { FiMenu } from "react-icons/fi";
 import { IoCloseOutline } from "react-icons/io5";
-import SidebarCart from "./SidebarCart";
+import { MdAccountCircle } from "react-icons/md";
+import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { Button } from "./Button";
 import Dropdown from "./Dropdown";
+import SidebarCart from "./SidebarCart";
 
 interface NavbarProps {
   isLoggedIn: boolean;
@@ -54,7 +54,7 @@ const Navbar = ({ isLoggedIn, handleLogout }: NavbarProps) => {
             isSideMenuOpen ? "block" : "hidden"
           }`}
         >
-          <section className="text-black bg-white flex-col absolute left-0 top-0 h-screen p-8 gap-8 z-50 w-56 flex ">
+          <section className="text-black bg-white flex-col absolute left-0 top-0 h-screen p-8 gap-8 z-100 w-56 flex ">
             <IoCloseOutline
               onClick={() => setIsSideMenuOpen(false)}
               className="mt-0 mb-8 text-3xl cursor-pointer"

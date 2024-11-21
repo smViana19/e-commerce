@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "../../services/axios";
 import OrderCard from "../components/OrderCard";
+import Spinner from "../components/Spinner";
 
 export interface Product {
   id: string;
@@ -25,17 +26,23 @@ export interface Orders {
 
 const Orders = () => {
   const [orders, setOrders] = useState<Orders[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const storedUser = localStorage.getItem("user");
   const userId = storedUser ? JSON.parse(storedUser) : null;
   console.log(userId.id);
   useEffect(() => {
     const fetchUserOrders = async () => {
+      setIsLoading(true);
       const response = await axiosInstance.get(`/order/${userId.id}`);
       setOrders(response.data);
+      setIsLoading(false);
     };
     fetchUserOrders();
   }, []);
 
+  if (isLoading) {
+    return <Spinner />;
+  }
   return (
     <div className="flex flex-col min-h-screen">
       {orders.length > 0 ? (

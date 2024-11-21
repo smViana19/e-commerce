@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import Navbar from "../components/Navbar";
+import { ToastContainer } from "react-toastify";
 import axiosInstance from "../../services/axios";
 import Card from "../components/Card";
-import { ToastContainer } from "react-toastify";
+import Spinner from "../components/Spinner";
 
 interface Product {
   id: string;
@@ -16,13 +16,20 @@ interface Product {
 
 const Products = () => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     const fetchProducts = async () => {
+      setIsLoading(true);
       const response = await axiosInstance.get("/product");
       setProducts(response.data);
+      setIsLoading(false);
     };
     fetchProducts();
   }, []);
+
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   return (
     <div className="flex flex-col min-h-screen">

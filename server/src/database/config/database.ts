@@ -1,25 +1,20 @@
 import 'dotenv/config'
 import { Options } from 'sequelize';
+import pg from 'pg';  // Importando o módulo pg explicitamente
+
 const config: Options = {
   username: process.env.PGUSER,
   password: process.env.PGPASSWORD,
   database: process.env.PGDATABASE,
   host: process.env.PGHOST,
   dialect: 'postgres',
+  dialectModule: pg,  // Aqui você especifica o módulo `pg`
   dialectOptions: {
     ssl: {
       require: true, // Para forçar o uso de SSL
-      rejectUnauthorized: false, // Você pode definir isso como true se tiver um certificado SSL válido
+      rejectUnauthorized: false, // Pode ajustar isso conforme seu certificado SSL
     },
   },
 }
-// const config: Options = {
-//   username: "",
-//   password: "",
-//   database: "ecommercedb",  
-//   host: "",  
-//   dialect: "sqlite",
-//   storage: "./database.sqlite",
-// };
 
-export = config
+export = config;

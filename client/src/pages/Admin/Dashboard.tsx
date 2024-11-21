@@ -6,6 +6,7 @@ import Modal from "../../components/Modal";
 import ProductForm from "../../components/ProductForm";
 import Card from "../../components/Card";
 import { IoMdAdd } from "react-icons/io";
+import Spinner from "../../components/Spinner";
 
 interface Product {
   id: string;
@@ -20,6 +21,7 @@ interface Product {
 const Dashboard = () => {
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [productToEdit, setProductToEdit] = useState<Product | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [productToDelete, setProductToDelete] = useState<Product | null>(null);
@@ -27,27 +29,36 @@ const Dashboard = () => {
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      const responsep = await axiosInstance.get("/product");
-      setProducts(responsep.data);
-      console.log("response responsep: ", products);
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        const responseProducts = await axiosInstance.get("/product");
+        setProducts(responseProducts.data);
+
+        const responseCategories = await axiosInstance.get("/category");
+        setCategories(responseCategories.data);
+      } catch (error) {
+        console.error("Erro ao carregar dados", error);
+        toast.error("Erro ao carregar produtos ou categorias");
+      } finally {
+        setIsLoading(false);
+      }
     };
-    const fetchCategories = async () => {
-      const response = await axiosInstance.get("/category");
-      setCategories(response.data);
-      console.log("response categories: ", categories);
-    };
-    fetchCategories();
-    fetchProducts();
+    fetchData();
   }, []);
 
   const handleCreateProduct = async (productData: any) => {
     try {
-      await axiosInstance.post("/product", productData);
+      setIsLoading(true);
+      const response = await axiosInstance.post("/product", productData);
+      setProducts((prevProducts) => [...prevProducts, response.data]);
       toast.success("Produto criado com sucesso");
     } catch (error) {
       console.error("erro criar produto: ", error);
       toast.error("Erro ao criar produto");
+    } finally {
+      setIsProductModalOpen(false);
+      setIsLoading(false);
     }
     setIsProductModalOpen(false);
   };
@@ -55,13 +66,24 @@ const Dashboard = () => {
   const handleEditProduct = async (productData: any) => {
     if (!productToEdit) return;
     try {
-      await axiosInstance.put(`/product/${productToEdit.id}`, productData);
+      setIsLoading(true);
+      const response = await axiosInstance.put(
+        `/product/${productToEdit.id}`,
+        productData
+      );
+      setProducts((prevProducts) =>
+        prevProducts.map((product) =>
+          product.id === productToEdit.id ? response.data : product
+        )
+      );
       toast.success("Produto atualizado com sucesso");
-      setIsProductModalOpen(false);
-      setIsEditMode(false);
     } catch (error) {
       console.error("Erro ao editar produto: ", error);
       toast.error("Erro ao editar produto");
+    } finally {
+      setIsProductModalOpen(false);
+      setIsEditMode(false);
+      setIsLoading(false);
     }
   };
   const openEditModal = (product: Product) => {
@@ -70,9 +92,12 @@ const Dashboard = () => {
     setIsProductModalOpen(true);
   };
   const openDeleteModal = (product: Product) => {
-    setProductToDelete(product); // Define o produto a ser excluído
-    setIsDeleteModalOpen(true); // Abre o modal de confirmação
+    setProductToDelete(product);
+    setIsDeleteModalOpen(true);
   };
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   const handleDeleteProduct = async (productId: string) => {
     try {

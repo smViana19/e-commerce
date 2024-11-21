@@ -1,12 +1,10 @@
-import React from "react";
-
 const Spinner = () => {
   return (
     <div className="flex justify-center items-center h-screen">
-      <div role="status" className="flex flex-col items-center">
+      <div role="status" className="flex flex-col items-center z-0">
         <svg
           aria-hidden="true"
-          className="w-16 h-16 text-gray-200 animate-spin fill-black"
+          className="w-14 h-14 text-gray-200 animate-spin fill-black"
           viewBox="0 0 100 101"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -21,7 +19,7 @@ const Spinner = () => {
           />
         </svg>
         <div>
-          <span className="mt-4 text-gray-700 text-xl">Carregando...</span>
+          <span className="mt-4 text-gray-700 text-lg">Carregando...</span>
         </div>
       </div>
     </div>
