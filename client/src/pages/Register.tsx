@@ -10,6 +10,17 @@ const Register = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const handleRegister = async () => {
+    if (name.length === 0 || email.length === 0 || password.length === 0) {
+      toast.warning("Preencha os campos");
+      return;
+    }
+    if (name.length < 3) {
+      toast.warn("O nome deve conter mais de 3 caracteres");
+    }
+    if (password.length < 6) {
+      toast.warning("A senha deve conter mais de 6 caracteres");
+      return;
+    }
     try {
       setIsLoading(true);
       await toast.promise(

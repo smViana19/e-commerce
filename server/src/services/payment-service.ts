@@ -31,8 +31,8 @@ class PaymentService {
         payment_method_types: ['card'],
         line_items: lineItems,
         mode: 'payment',
-        success_url: 'http://localhost:5173/payment-success?sessionId={CHECKOUT_SESSION_ID}',
-        cancel_url: 'http://localhost:5173/',
+        success_url: 'https://bazzarbrand.vercel.app/payment-success?sessionId={CHECKOUT_SESSION_ID}',
+        cancel_url: 'http://bazzarbrand.vercel.app/',
         metadata: {
           orderId,
         },
