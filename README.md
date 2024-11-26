@@ -1,6 +1,9 @@
-# E-Commerce Full Stack Application
+# Bazzar Brand
 
-Este é um projeto de e-commerce completo com front-end em React, Vite e TypeScript e um back-end em Node.js, TypeScript, Sequelize e Express.
+Este é um projeto de e-commerce completo com front-end em React, Vite e TypeScript e um back-end em Node.js, TypeScript, Sequelize e Express. Um bazar de roupas streetwear online!
+
+## Deploy
+- https://bazzarbrand.vercel.app/
 
 ## 📋 Índice
 - [Sobre o Projeto](#sobre-o-projeto)
